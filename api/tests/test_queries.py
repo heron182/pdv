@@ -133,7 +133,7 @@ def test_all_pdvs(db_con, snapshot):
     cli = Client(schema)
 
     resp = cli.execute(
-        """ query { allPdvs { edges { node { id tradingName ownerName document address coverageArea } } } } """
+        """ query { allPdvs { edges { node { tradingName ownerName document address coverageArea } } } } """
     )
 
     snapshot.assert_match(resp)
