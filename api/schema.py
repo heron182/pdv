@@ -39,5 +39,11 @@ class Query(graphene.ObjectType):
     node = Node.Field()
     all_pdvs = MongoengineConnectionField(Pdv)
 
+    def resolve_all_pdvs(self, info, document=None):
+        if document:
+            return PdvModel.objects.filter(document=document)
+
+        return PdvModel.objects.all()
+
 
 schema = graphene.Schema(query=Query, mutation=Mutation, types=[Pdv])

@@ -137,3 +137,25 @@ def test_all_pdvs(db_con, snapshot):
     )
 
     snapshot.assert_match(resp)
+
+
+def test_find_pdv(db_con, snapshot):
+    pdv = Pdv(
+        trading_name="Zé Delivery",
+        owner_name="Zé",
+        document="89204671546728",
+        address=[-46.57421, -21.785741],
+        coverage_area=[
+            [[[30, 20], [45, 40], [10, 40], [30, 20]]],
+            [[[15, 5], [40, 10], [10, 20], [5, 10], [15, 5]]],
+        ],
+    ).save()
+
+    cli = Client(schema)
+
+    resp = cli.execute(
+        """ query { allPdvs(document: "%s") { edges { node { tradingName ownerName document address coverageArea } } } }"""
+        % pdv.document
+    )
+
+    snapshot.assert_match(resp)
