@@ -11,4 +11,4 @@ class Pdv(Document):
     meta = {"indexes": [[("coverage_area", "2dsphere")]]}
 
     def __str__(self):
-        return self.id, self.trading_name
+        return "%s, %s" % (self.id, self.trading_name)

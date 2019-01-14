@@ -49,4 +49,3 @@ class Query:
             return PdvModel.objects.filter(document=document)
 
         return PdvModel.objects.all()
-
