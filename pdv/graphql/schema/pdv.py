@@ -2,7 +2,7 @@ import graphene
 from graphene.relay import Node
 from graphene_mongo import MongoengineConnectionField, MongoengineObjectType
 
-from api.models import Pdv as PdvModel
+from pdv.models import Pdv as PdvModel
 
 
 class Pdv(MongoengineObjectType):
@@ -31,13 +31,18 @@ class CreatePdv(graphene.relay.ClientIDMutation):
         return CreatePdv(pdv=new_pdv)
 
 
-class Mutation(graphene.AbstractType, graphene.ObjectType):
+class Mutation:
     create_pdv = CreatePdv.Field()
 
 
-class Query(graphene.ObjectType):
-    node = Node.Field()
+class Query:
     all_pdvs = MongoengineConnectionField(Pdv)
+    nearest_pdv = MongoengineConnectionField(
+        Pdv, coord=graphene.List(graphene.Float, required=True)
+    )
+
+    def resolve_nearest_pdv(self, info, coord):
+        return PdvModel.objects.filter(coverage_area__near=coord)[:1]
 
     def resolve_all_pdvs(self, info, document=None):
         if document:
@@ -45,5 +50,3 @@ class Query(graphene.ObjectType):
 
         return PdvModel.objects.all()
 
-
-schema = graphene.Schema(query=Query, mutation=Mutation, types=[Pdv])

@@ -4,7 +4,7 @@ from flask import Flask, cli
 from flask_mongoengine import MongoEngine
 from flask_graphql import GraphQLView
 
-from .schema import schema
+from .graphql import schema
 
 
 def create_app():

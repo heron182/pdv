@@ -1,7 +1,7 @@
 from graphene.test import Client
 
-from api.models import Pdv
-from api.schema import schema
+from pdv.models import Pdv
+from pdv.graphql import schema
 
 
 def test_create_pdv(db_con, snapshot):
@@ -159,3 +159,4 @@ def test_find_pdv(db_con, snapshot):
     )
 
     snapshot.assert_match(resp)
+

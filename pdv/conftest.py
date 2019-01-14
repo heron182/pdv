@@ -4,7 +4,7 @@ import pytest
 from mongoengine import connect
 from pymongo import MongoClient
 
-from api import create_app
+from pdv import create_app
 from flask import cli
 
 

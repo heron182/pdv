@@ -11,6 +11,6 @@ RUN groupadd -g 999 appuser && \
 
 USER appuser
 
-CMD ["sh", "-c", "/usr/local/bin/gunicorn --access-logfile - -b 0.0.0.0:8000 'api:create_app()'"]
+CMD ["sh", "-c", "/usr/local/bin/gunicorn --access-logfile - -b 0.0.0.0:8000 'pdv:create_app()'"]
 
 EXPOSE 8000
