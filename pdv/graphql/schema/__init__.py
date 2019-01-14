@@ -8,7 +8,7 @@ class Query(graphene.ObjectType, PdvQuery):
     node = Node.Field()
 
 
-class Mutation(graphene.AbstractType, graphene.ObjectType, PdvMutation):
+class Mutation(graphene.ObjectType, PdvMutation):
     pass
 
 

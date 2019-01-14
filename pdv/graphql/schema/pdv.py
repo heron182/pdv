@@ -44,7 +44,7 @@ class Query:
     def resolve_nearest_pdv(self, info, coord):
         return PdvModel.objects.filter(coverage_area__near=coord)[:1]
 
-    def resolve_all_pdvs(self, info, document=None):
+    def resolve_all_pdvs(self, info, document=None, **kwargs):
         if document:
             return PdvModel.objects.filter(document=document)
 

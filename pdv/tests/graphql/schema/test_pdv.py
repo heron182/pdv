@@ -1,9 +1,3 @@
-from graphene.test import Client
-
-# from pdv.conftest import create_pdvs
-from pdv.graphql import schema
-
-
 def test_create_pdv(db_con, snapshot, graph_cli):
     resp = graph_cli.execute(
         """mutation createPdv($input: CreatePdvInput!) {
@@ -34,12 +28,63 @@ def test_create_pdv(db_con, snapshot, graph_cli):
     snapshot.assert_match(resp)
 
 
+def test_create_pdv_duplicate_document(db_con, snapshot, graph_cli, pdvs):
+    existing_pdv = pdvs[0]
+
+    resp = graph_cli.execute(
+        """mutation createPdv($input: CreatePdvInput!) {
+            createPdv(input: $input) {
+                pdv {
+                    tradingName
+                    ownerName
+                    document
+                    address
+                    coverageArea
+                }
+            }
+        }""",
+        variables={
+            "input": {
+                "tradingName": "Lojinha Soprano",
+                "ownerName": "Tony",
+                "document": existing_pdv.document,
+                "address": [70, 22],
+                "coverageArea": [
+                    [[[30, 20], [45, 40], [10, 40], [30, 20]]],
+                    [[[15, 5], [40, 10], [10, 20], [5, 10], [15, 5]]],
+                ],
+            }
+        },
+    )
+
+    snapshot.assert_match(resp)
+
+
 def test_all_pdvs(db_con, snapshot, pdvs, graph_cli):
     resp = graph_cli.execute(
         """ query { allPdvs { edges { node { tradingName ownerName document address coverageArea } } } } """
     )
 
     snapshot.assert_match(resp)
+
+
+def test_all_pdvs_paginated(db_con, snapshot, pdvs, graph_cli):
+    resp = graph_cli.execute(
+        """ query { allPdvs(first: 2) { edges { node { tradingName ownerName document address coverageArea } cursor } } } """
+    )
+
+    snapshot.assert_match(resp)
+    assert len(resp["data"]["allPdvs"]["edges"]) == 2
+
+    cursor = resp["data"]["allPdvs"]["edges"][1]["cursor"]
+
+    resp = graph_cli.execute(
+        """ query { allPdvs(first: 2, after: "%s") { edges { node { tradingName ownerName document address coverageArea } cursor } } } """
+        % cursor
+    )
+
+    snapshot.assert_match(resp)
+    assert len(resp["data"]["allPdvs"]["edges"]) == 2
 
 
 def test_find_pdv(db_con, snapshot, pdvs, graph_cli):
