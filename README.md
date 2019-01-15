@@ -34,7 +34,7 @@ GraphiQL and documentation should be available at http://localhost:8000/graphql
 
     ~/pdv: docker-compose run api pytest
 
-**Load tests:**
+**Load fixtures:**
 
     ~/pdv: docker-compose run api flask load_fixtures
 
