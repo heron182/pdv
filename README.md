@@ -49,3 +49,8 @@ GraphiQL and documentation should be available at http://localhost:8000/graphql
 **Sort imports:**
 
     ~/pdv: docker-compose run isort
+
+
+### Todo
+
+Track Issue https://github.com/graphql-python/graphene-mongo/issues/62 and replace `graphene-mongo` for official repo library
