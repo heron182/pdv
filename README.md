@@ -32,7 +32,7 @@ GraphiQL and documentation should be available at http://localhost:8000/graphql
 
 **Running tests:**
 
-    ~/pdv: docker-compose run api pytest
+    ~/pdv: docker-compose run api pytest -vv
 
 **Load fixtures:**
 
