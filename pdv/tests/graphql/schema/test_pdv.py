@@ -261,7 +261,7 @@ def test_all_pdvs_paginated(db_con, snapshot, pdvs, graph_cli):
 
 
 def test_find_pdv(db_con, snapshot, pdvs, graph_cli):
-    document = pdvs[0].document
+    document = pdvs.first()
 
     resp = graph_cli.execute(
         """ query { allPdvs(document: "%s") { edges { node { tradingName ownerName document address coverageArea } } } }"""
