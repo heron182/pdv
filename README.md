@@ -9,7 +9,7 @@ A GraphQL API where you can:
 
 ### Production Deploy
 
-The application should work in any Docker network environment(Docker-Swarm, Kubernetes, etc) as long as the follow environment variables are injected during runtime:
+The application should work in any Docker network environment(Docker-Swarm, Kubernetes, standalone Docker) as long as the port 8000 is fowarded and the follow environment variables are injected during runtime:
 
 - MONGODB_URI(required) - MongoDB connection string in the form "mongodb://username:password@hostname:port/database"
 - SECRET_KEY(required) - Used in Flask session management
