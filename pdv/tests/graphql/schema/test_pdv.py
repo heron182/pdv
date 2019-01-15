@@ -59,7 +59,7 @@ def test_create_pdv_invalid_document_number(db_con, snapshot, graph_cli):
 
 
 def test_create_pdv_duplicate_document(db_con, snapshot, graph_cli, pdvs):
-    existing_pdv = pdvs[0]
+    existing_pdv = pdvs.first()
 
     resp = graph_cli.execute(
         """mutation createPdv($input: CreatePdvInput!) {

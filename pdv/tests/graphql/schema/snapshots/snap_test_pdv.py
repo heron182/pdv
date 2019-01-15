@@ -19,7 +19,7 @@ snapshots['test_create_pdv_duplicate_document 1'] = {
                     'line': 2
                 }
             ],
-            'message': 'Tried to save duplicate unique keys (E11000 duplicate key error collection: pdv.pdv index: document_1 dup key: { : "02.453.716/000170" })',
+            'message': 'Tried to save duplicate unique keys (E11000 duplicate key error collection: pdv_test.pdv index: document_1 dup key: { : "02.453.716/000170" })',
             'path': [
                 'createPdv'
             ]

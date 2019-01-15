@@ -15,7 +15,9 @@ def db_con():
     cli.load_dotenv()
 
     db_uri = os.environ["MONGODB_URI"]
-    db_name = os.environ["MONGODB_URI"][::-1].split("/")[0][::-1]
+    db_uri += "_test"
+
+    db_name = "%s_test" % os.environ["MONGODB_URI"][::-1].split("/")[0][::-1]
 
     db_con = connect(host=db_uri)
 
