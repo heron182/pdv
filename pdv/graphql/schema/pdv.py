@@ -3,6 +3,7 @@ from graphene.relay import Node
 from graphene_mongo import MongoengineConnectionField, MongoengineObjectType
 
 from pdv.models import Pdv as PdvModel
+from pdv.graphql.schema import custom_types
 
 
 class Pdv(MongoengineObjectType):
@@ -17,7 +18,7 @@ class CreatePdv(graphene.relay.ClientIDMutation):
     class Input:
         trading_name = graphene.String(required=True)
         owner_name = graphene.String(required=True)
-        document = graphene.String(required=True)
+        document = custom_types.CNPJ(required=True)
         address = graphene.List(graphene.Float, required=True)
         coverage_area = graphene.List(
             graphene.List(graphene.List(graphene.List(graphene.Float))), required=True

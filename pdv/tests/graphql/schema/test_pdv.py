@@ -15,7 +15,37 @@ def test_create_pdv(db_con, snapshot, graph_cli):
             "input": {
                 "tradingName": "Cabo Daciolo",
                 "ownerName": "Gloriaaa",
-                "document": "28563782/12345",
+                "document": "02.453.716/000170",
+                "address": [-46.57421, -21.785741],
+                "coverageArea": [
+                    [[[30, 20], [45, 40], [10, 40], [30, 20]]],
+                    [[[15, 5], [40, 10], [10, 20], [5, 10], [15, 5]]],
+                ],
+            }
+        },
+    )
+
+    snapshot.assert_match(resp)
+
+
+def test_create_pdv_invalid_document_number(db_con, snapshot, graph_cli):
+    resp = graph_cli.execute(
+        """mutation createPdv($input: CreatePdvInput!) {
+            createPdv(input: $input) {
+                pdv {
+                    tradingName
+                    ownerName
+                    document
+                    address
+                    coverageArea
+                }
+            }
+        }""",
+        variables={
+            "input": {
+                "tradingName": "Cabo Daciolo",
+                "ownerName": "Gloriaaa",
+                "document": "18375667000170",
                 "address": [-46.57421, -21.785741],
                 "coverageArea": [
                     [[[30, 20], [45, 40], [10, 40], [30, 20]]],
