@@ -1,1 +1,1 @@
-from .load_fixtures import load_fixtures
+from .load_fixtures import load_fixtures  # NOQA
