@@ -16,12 +16,20 @@ class CreatePdv(graphene.relay.ClientIDMutation):
     pdv = graphene.Field(Pdv)
 
     class Input:
-        trading_name = graphene.String(required=True)
-        owner_name = graphene.String(required=True)
-        document = custom_types.CNPJ(required=True)
-        address = graphene.List(graphene.Float, required=True)
+        trading_name = graphene.String(
+            required=True, description="Name of trading store"
+        )
+        owner_name = graphene.String(required=True, description="Name of trading owner")
+        document = custom_types.CNPJ(required=True, description="CNPJ of trading store")
+        address = graphene.List(
+            graphene.Float,
+            required=True,
+            description="Point coordinate in the form [lar, long]",
+        )
         coverage_area = graphene.List(
-            graphene.List(graphene.List(graphene.List(graphene.Float))), required=True
+            graphene.List(graphene.List(graphene.List(graphene.Float))),
+            required=True,
+            description="MultiPolygon format store coverage area",
         )
 
     def mutate_and_get_payload(self, info, **kwargs):
