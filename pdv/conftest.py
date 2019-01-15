@@ -6,24 +6,41 @@ from flask import cli
 from graphene.test import Client
 from mongoengine import connect
 
+from pdv import create_app
 from pdv.graphql import schema
 from pdv.models import Pdv
 
 
 @pytest.fixture()
-def db_con():
+def app():
     cli.load_dotenv()
 
-    db_uri = os.environ["MONGODB_URI"]
-    db_uri += "_test"
+    os.environ["MONGODB_URI"] = "%s_test" % os.environ["MONGODB_URI"]
 
-    db_name = "%s_test" % os.environ["MONGODB_URI"][::-1].split("/")[0][::-1]
+    app = create_app()
+    app.config["TESTING"] = True
 
-    db_con = connect(host=db_uri)
+    app_context = app.test_request_context()
+    app_context.push()
 
-    yield db_con
+    yield app
 
-    db_con.drop_database(db_name)
+    teardown_database(app)
+
+
+@pytest.fixture
+def client(app):
+    client = app.test_client()
+
+    yield client
+
+
+def teardown_database(app):
+    db_uri = app.config["MONGODB_SETTINGS"]["host"]
+    db_name = app.config["MONGODB_SETTINGS"]["host"][::-1].split("/")[0][::-1]
+
+    connection = connect(db_uri)
+    connection.drop_database(db_name)
 
 
 @pytest.fixture()

@@ -1,4 +1,4 @@
-def test_create_pdv(db_con, snapshot, graph_cli):
+def test_create_pdv(app, snapshot, graph_cli):
     resp = graph_cli.execute(
         """mutation createPdv($input: CreatePdvInput!) {
             createPdv(input: $input) {
@@ -28,7 +28,7 @@ def test_create_pdv(db_con, snapshot, graph_cli):
     snapshot.assert_match(resp)
 
 
-def test_create_pdv_required_parameters(db_con, snapshot, graph_cli):
+def test_create_pdv_required_parameters(app, snapshot, graph_cli):
     resp = graph_cli.execute(
         """mutation createPdv($input: CreatePdvInput!) {
             createPdv(input: $input) {
@@ -55,7 +55,7 @@ def test_create_pdv_required_parameters(db_con, snapshot, graph_cli):
     snapshot.assert_match(resp)
 
 
-def test_create_pdv_invalid_document_number(db_con, snapshot, graph_cli):
+def test_create_pdv_invalid_document_number(app, snapshot, graph_cli):
     resp = graph_cli.execute(
         """mutation createPdv($input: CreatePdvInput!) {
             createPdv(input: $input) {
@@ -85,7 +85,7 @@ def test_create_pdv_invalid_document_number(db_con, snapshot, graph_cli):
     snapshot.assert_match(resp)
 
 
-def test_create_pdv_invalid_address(db_con, snapshot, graph_cli):
+def test_create_pdv_invalid_address(app, snapshot, graph_cli):
     resp = graph_cli.execute(
         """mutation createPdv($input: CreatePdvInput!) {
             createPdv(input: $input) {
@@ -143,7 +143,7 @@ def test_create_pdv_invalid_address(db_con, snapshot, graph_cli):
     snapshot.assert_match(resp)
 
 
-def test_create_pdv_invalid_coverage_area(db_con, snapshot, graph_cli):
+def test_create_pdv_invalid_coverage_area(app, snapshot, graph_cli):
     resp = graph_cli.execute(
         """mutation createPdv($input: CreatePdvInput!) {
             createPdv(input: $input) {
@@ -201,7 +201,7 @@ def test_create_pdv_invalid_coverage_area(db_con, snapshot, graph_cli):
     snapshot.assert_match(resp)
 
 
-def test_create_pdv_duplicate_document(db_con, snapshot, graph_cli, pdvs):
+def test_create_pdv_duplicate_document(app, snapshot, graph_cli, pdvs):
     existing_pdv = pdvs.first()
 
     resp = graph_cli.execute(
@@ -233,7 +233,7 @@ def test_create_pdv_duplicate_document(db_con, snapshot, graph_cli, pdvs):
     snapshot.assert_match(resp)
 
 
-def test_all_pdvs(db_con, snapshot, pdvs, graph_cli):
+def test_all_pdvs(app, snapshot, pdvs, graph_cli):
     resp = graph_cli.execute(
         """ query { allPdvs { edges { node { tradingName ownerName document address coverageArea } } } } """
     )
@@ -241,7 +241,7 @@ def test_all_pdvs(db_con, snapshot, pdvs, graph_cli):
     snapshot.assert_match(resp)
 
 
-def test_all_pdvs_paginated(db_con, snapshot, pdvs, graph_cli):
+def test_all_pdvs_paginated(app, snapshot, pdvs, graph_cli):
     resp = graph_cli.execute(
         """ query { allPdvs(first: 2) { edges { node { tradingName ownerName document address coverageArea } cursor } } } """
     )
@@ -260,7 +260,7 @@ def test_all_pdvs_paginated(db_con, snapshot, pdvs, graph_cli):
     assert len(resp["data"]["allPdvs"]["edges"]) == 2
 
 
-def test_find_pdv_by_id(db_con, snapshot, pdvs, graph_cli):
+def test_find_pdv_by_id(app, snapshot, pdvs, graph_cli):
     pdv = pdvs.first()
 
     resp = graph_cli.execute(
@@ -271,7 +271,7 @@ def test_find_pdv_by_id(db_con, snapshot, pdvs, graph_cli):
     snapshot.assert_match(resp)
 
 
-def test_nearest_pdv(db_con, snapshot, pdvs, graph_cli):
+def test_nearest_pdv(app, snapshot, pdvs, graph_cli):
     user_coord = [-41.25625, -3.85015]
 
     resp = graph_cli.execute(
@@ -282,7 +282,7 @@ def test_nearest_pdv(db_con, snapshot, pdvs, graph_cli):
     snapshot.assert_match(resp)
 
 
-def test_nearest_pdv_invalid_coord(db_con, snapshot, pdvs, graph_cli):
+def test_nearest_pdv_invalid_coord(app, snapshot, pdvs, graph_cli):
     user_coord = [-41.25625]
 
     resp = graph_cli.execute(
