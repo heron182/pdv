@@ -4,18 +4,8 @@ from __future__ import unicode_literals
 
 from snapshottest import Snapshot
 
-snapshots = Snapshot()
 
-snapshots["test_create_pdv_duplicate_document 1"] = {
-    "data": {"createPdv": None},
-    "errors": [
-        {
-            "locations": [{"column": 13, "line": 2}],
-            "message": 'Tried to save duplicate unique keys (E11000 duplicate key error collection: pdv_test.pdv index: document_1 dup key: { : "02.453.716/000170" })',
-            "path": ["createPdv"],
-        }
-    ],
-}
+snapshots = Snapshot()
 
 snapshots["test_create_pdv 1"] = {
     "data": {
@@ -29,6 +19,81 @@ snapshots["test_create_pdv 1"] = {
             }
         }
     }
+}
+
+snapshots["test_create_pdv_invalid_document_number 1"] = {
+    "errors": [{"message": "Invalid document number"}]
+}
+
+snapshots["test_create_pdv_required_parameters 1"] = {
+    "errors": [
+        {
+            "locations": [{"column": 20, "line": 1}],
+            "message": """Variable "$input" got invalid value {"address": null, "coverageArea": null, "document": null, "ownerName": null, "tradingName": null}.
+In field "tradingName": Expected "String!", found null.
+In field "ownerName": Expected "String!", found null.
+In field "document": Expected "CNPJ!", found null.
+In field "address": Expected "[Float]!", found null.
+In field "coverageArea": Expected "[[[[Float]]]]!", found null.""",
+        }
+    ]
+}
+
+snapshots["test_create_pdv_invalid_address 1"] = {
+    "data": {"createPdv": None},
+    "errors": [
+        {
+            "locations": [{"column": 13, "line": 2}],
+            "message": "ValidationError (Pdv:None) (Value ([-46.57421, -21.785741, -21.785741]) must be a two-dimensional point: ['address'])",
+            "path": ["createPdv"],
+        }
+    ],
+}
+
+snapshots["test_create_pdv_invalid_address 2"] = {
+    "data": {"createPdv": None},
+    "errors": [
+        {
+            "locations": [{"column": 13, "line": 2}],
+            "message": "ValidationError (Pdv:None) (Value ([-46.57421]) must be a two-dimensional point: ['address'])",
+            "path": ["createPdv"],
+        }
+    ],
+}
+
+snapshots["test_create_pdv_invalid_coverage_area 1"] = {
+    "data": {"createPdv": None},
+    "errors": [
+        {
+            "locations": [{"column": 13, "line": 2}],
+            "message": """ValidationError (Pdv:None) (Value ([-46.57421, -21.785741, -21.785741]) must be a two-dimensional point: ['address'] Invalid MultiPolygon:
+LineStrings must start and end at the same point: ['coverage_area'])""",
+            "path": ["createPdv"],
+        }
+    ],
+}
+
+snapshots["test_create_pdv_invalid_coverage_area 2"] = {
+    "data": {"createPdv": None},
+    "errors": [
+        {
+            "locations": [{"column": 13, "line": 2}],
+            "message": """ValidationError (Pdv:None) (Value ([-46.57421]) must be a two-dimensional point: ['address'] Invalid MultiPolygon:
+Value ([30.0, 20.0, 50.0]) must be a two-dimensional point, Value ([10.0, 20.0, 80.0]) must be a two-dimensional point: ['coverage_area'])""",
+            "path": ["createPdv"],
+        }
+    ],
+}
+
+snapshots["test_create_pdv_duplicate_document 1"] = {
+    "data": {"createPdv": None},
+    "errors": [
+        {
+            "locations": [{"column": 13, "line": 2}],
+            "message": 'Tried to save duplicate unique keys (E11000 duplicate key error collection: pdv_test.pdv index: document_1 dup key: { : "02.453.716/000170" })',
+            "path": ["createPdv"],
+        }
+    ],
 }
 
 snapshots["test_all_pdvs 1"] = {
@@ -177,70 +242,6 @@ snapshots["test_nearest_pdv 1"] = {
             ]
         }
     }
-}
-
-snapshots["test_create_pdv_invalid_document_number 1"] = {
-    "errors": [{"message": "Invalid document number"}]
-}
-
-snapshots["test_create_pdv_required_parameters 1"] = {
-    "errors": [
-        {
-            "locations": [{"column": 20, "line": 1}],
-            "message": """Variable "$input" got invalid value {"address": null, "coverageArea": null, "document": null, "ownerName": null, "tradingName": null}.
-In field "tradingName": Expected "String!", found null.
-In field "ownerName": Expected "String!", found null.
-In field "document": Expected "CNPJ!", found null.
-In field "address": Expected "[Float]!", found null.
-In field "coverageArea": Expected "[[[[Float]]]]!", found null.""",
-        }
-    ]
-}
-
-snapshots["test_create_pdv_invalid_address 1"] = {
-    "data": {"createPdv": None},
-    "errors": [
-        {
-            "locations": [{"column": 13, "line": 2}],
-            "message": "ValidationError (Pdv:None) (Value ([-46.57421, -21.785741, -21.785741]) must be a two-dimensional point: ['address'])",
-            "path": ["createPdv"],
-        }
-    ],
-}
-
-snapshots["test_create_pdv_invalid_address 2"] = {
-    "data": {"createPdv": None},
-    "errors": [
-        {
-            "locations": [{"column": 13, "line": 2}],
-            "message": "ValidationError (Pdv:None) (Value ([-46.57421]) must be a two-dimensional point: ['address'])",
-            "path": ["createPdv"],
-        }
-    ],
-}
-
-snapshots["test_create_pdv_invalid_coverage_area 1"] = {
-    "data": {"createPdv": None},
-    "errors": [
-        {
-            "locations": [{"column": 13, "line": 2}],
-            "message": """ValidationError (Pdv:None) (Value ([-46.57421, -21.785741, -21.785741]) must be a two-dimensional point: ['address'] Invalid MultiPolygon:
-LineStrings must start and end at the same point: ['coverage_area'])""",
-            "path": ["createPdv"],
-        }
-    ],
-}
-
-snapshots["test_create_pdv_invalid_coverage_area 2"] = {
-    "data": {"createPdv": None},
-    "errors": [
-        {
-            "locations": [{"column": 13, "line": 2}],
-            "message": """ValidationError (Pdv:None) (Value ([-46.57421]) must be a two-dimensional point: ['address'] Invalid MultiPolygon:
-Value ([30.0, 20.0, 50.0]) must be a two-dimensional point, Value ([10.0, 20.0, 80.0]) must be a two-dimensional point: ['coverage_area'])""",
-            "path": ["createPdv"],
-        }
-    ],
 }
 
 snapshots["test_nearest_pdv_invalid_coord 1"] = {

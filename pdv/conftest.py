@@ -37,7 +37,7 @@ def pdvs():
     with open(fixtures_path) as fp:
         pdv_fixtures = json.loads(fp.read())
 
-    for pdv in pdv_fixtures["pdvs"]:
+    for pdv in pdv_fixtures["pdvs"][:5]:
         Pdv(**pdv).save()
 
     return Pdv.objects.all()
