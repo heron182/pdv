@@ -1,8 +1,10 @@
 from logging.config import dictConfig
 
 from flask import Flask, cli
-from flask_mongoengine import MongoEngine
 from flask_graphql import GraphQLView
+from flask_mongoengine import MongoEngine
+
+from pdv.commands import load_fixtures
 
 from .graphql import schema
 
@@ -17,10 +19,15 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(BaseSettings)
     app.url_map.strict_slashes = False
+    configure_commands(app)
     configure_extensions(app)
     configure_rules(app)
 
     return app
+
+
+def configure_commands(app):
+    app.cli.add_command(load_fixtures)
 
 
 def configure_extensions(app):
