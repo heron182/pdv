@@ -2,8 +2,8 @@ import graphene
 from graphene.relay import Node
 from graphene_mongo import MongoengineConnectionField, MongoengineObjectType
 
-from pdv.models import Pdv as PdvModel
 from pdv.graphql.schema import custom_types
+from pdv.models import Pdv as PdvModel
 
 
 class Pdv(MongoengineObjectType):

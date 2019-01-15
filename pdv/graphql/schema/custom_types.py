@@ -1,7 +1,8 @@
-from graphene.types import Scalar
-from graphql.language import ast
-from graphql import GraphQLError
 import re
+
+from graphene.types import Scalar
+from graphql import GraphQLError
+from graphql.language import ast
 
 
 class CNPJ(Scalar):

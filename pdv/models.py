@@ -1,4 +1,4 @@
-from mongoengine import Document, StringField, PointField, MultiPolygonField
+from mongoengine import Document, MultiPolygonField, PointField, StringField
 
 
 class Pdv(Document):
