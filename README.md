@@ -44,7 +44,7 @@ GraphiQL and documentation should be available at http://localhost:8000/graphql
 
 **Auto Format:**
 
-    ~/pdv: docker-compose run api black
+    ~/pdv: docker-compose run api black .
 
 **Sort Imports:**
 
