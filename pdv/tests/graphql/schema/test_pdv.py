@@ -260,12 +260,12 @@ def test_all_pdvs_paginated(db_con, snapshot, pdvs, graph_cli):
     assert len(resp["data"]["allPdvs"]["edges"]) == 2
 
 
-def test_find_pdv(db_con, snapshot, pdvs, graph_cli):
-    document = pdvs.first()
+def test_find_pdv_by_id(db_con, snapshot, pdvs, graph_cli):
+    pdv = pdvs.first()
 
     resp = graph_cli.execute(
-        """ query { allPdvs(document: "%s") { edges { node { tradingName ownerName document address coverageArea } } } }"""
-        % document
+        """ query { allPdvs(id: "%s") { edges { node { tradingName ownerName document address coverageArea } } } }"""
+        % pdv.id
     )
 
     snapshot.assert_match(resp)
