@@ -1,5 +1,10 @@
 FROM python:3.6.7-stretch
 
+ENV FLASK_ENV="production"
+ENV FLASK_APP="pdv"
+ENV FLASK_DEBUG=0
+ENV LOG_LEVEL="INFO"
+
 COPY . /app
 
 WORKDIR /app

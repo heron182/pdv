@@ -16,6 +16,7 @@ The application should work in any Docker network environment(Docker-Swarm, Kube
 - FLASK_ENV(optional) - Defaults to "production"
 - FLASK_APP(optional) - Defaults do "pdv"
 - FLASK_DEBUG(optional) - Defaults to 0
+- LOG_LEVEL(optional) - Default to "INFO"
 
 ### Local Development:
 

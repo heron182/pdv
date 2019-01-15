@@ -31,5 +31,7 @@ def configure_extensions(app):
 def configure_rules(app):
     app.add_url_rule(
         "/graphql",
-        view_func=GraphQLView.as_view("graphql", schema=schema, graphiql=True),
+        view_func=GraphQLView.as_view(
+            "graphql", schema=schema, graphiql=app.config["FLASK_DEBUG"] == 1
+        ),
     )
