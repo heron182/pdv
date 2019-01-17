@@ -3,7 +3,7 @@
 A GraphQL API where you can:
     
 - Create a new PDV
-- Search a PDV by document(CNPJ)
+- Search a PDV by ID
 - Given a [lat, long] coordinate, return the nearest PDV in your area.
 
 
